@@ -18,7 +18,7 @@ def service():
         file.write("\n")
 
     html = '<html><body><h1>Hello World!</h1><p>Access count: ' + \
-            str(route_count) + '</p>' + \
-            '<img src="https://media.giphy.com/media/3o7TKz9bX9v6hZ8NSA/giphy.gif">' + \
-            '</body></html>'
+            str(route_count) + '</p></body></html>' # + \
+            # '<img src="https://media.giphy.com/media/3o7TKz9bX9v6hZ8NSA/giphy.gif">' + \
+            # '</body></html>'
     return html

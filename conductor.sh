@@ -1,9 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 #
 # CS695 Conductor that manages containers
 # Author: <your-name>
 #
-echo -e "\e[1;32mCS695 Conductor that manages containers\e[0m"
+# echo -e "\e[1;32mCS695 Conductor that manages containers\e[0m"
 
 set -o errexit
 set -o nounset
@@ -187,7 +187,7 @@ eval set -- "$OPTIONS"
 
 while true; do
     arg="$1"
-    shift 
+    shift
     case "$arg" in
         -h | --help)
             usage full >&2
@@ -207,7 +207,6 @@ done
 
 [ "$#" -eq 0 ] && usage >&2
 
-echo $1
 case "$1" in
     build)
         CMD=build
