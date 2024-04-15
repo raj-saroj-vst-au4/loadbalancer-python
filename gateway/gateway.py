@@ -2,11 +2,14 @@
 # This script defines a Flask application that acts as a gateway to route incoming requests to two different services.
 
 # default imports
-from flask import Flask, request, jsonify
+# from flask import Flask, request, jsonify
+from flask import jsonify
+from fastapi import FastAPI
 import requests
 import os
 
-app = Flask(__name__)
+# app = Flask(__name__)
+app = FastAPI()
 
 # Define service endpoints
 SERVICE_ENDPOINTS = {
@@ -18,7 +21,8 @@ SERVICE_ENDPOINTS = {
 req_count = 0
 
 # Define a route to accept incoming requests
-@app.route('/', methods=['GET'])
+# @app.route('/', methods=['GET'])
+@app.get("/")
 def gateway():
     global req_count
 
@@ -35,6 +39,7 @@ def gateway():
     # Make a request to the specified service endpoint
     try:
         response = requests.get(service_endpoint)
+        response.elapsed.total_seconds()
         return str(response.status_code)
     except Exception as e:
         return jsonify({'error': f'Failed to connect to service "{service_name}": {str(e)}'}), 500
