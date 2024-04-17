@@ -7,7 +7,7 @@ bash conductor.sh build test-gateway latest gateway/.
 bash conductor.sh build test-service latest service/.
 
 # start the service containers
-# bash conductor.sh run test-service latest c1 -e 9000-8000
+bash conductor.sh run test-service latest c1 -e 9000-8000
 bash conductor.sh run test-service latest c2 -e 9001-8000
 
 # get the IP and port of machine where the service containers are running
