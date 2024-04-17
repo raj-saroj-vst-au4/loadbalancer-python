@@ -38,6 +38,10 @@ if __name__ == "__main__":
 
     print(replica_dtls)
 
+    # set the policy for the gateway via POST
+    # policy_resp = subprocess.run(" ".join(["curl", "-X", "POST", "http://localhost:8000/policy", "-H", "Content-Type: application/json", "-d", "'{\"policy\": \"LEAST_RESPONSE_TIME\"}'"]), shell=True)
+    # print(policy_resp)
+
     # parse command-line arguments
     # parser = argparse.ArgumentParser()
     # parser.add_argument("--input", type=str, help="Path to the input file")
