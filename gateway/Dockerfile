@@ -8,6 +8,3 @@ RUN apt install -y inetutils-ping
 RUN apt install -y curl net-tools procps
 
 COPY gateway.py /
-
-EXPOSE 8000
-CMD ["uvicorn", "gateway:app", "--host", "0.0.0.0", "--port", "8000"]

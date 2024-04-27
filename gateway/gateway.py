@@ -5,6 +5,7 @@
 # from flask import Flask, request, jsonify
 # from flask import jsonify
 from fastapi import FastAPI, Query
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 import requests
 
@@ -35,7 +36,7 @@ def register_frontend(container: ContainerDetails):
 
     # add the details of the frontend service to the dictionary
     if container.status == "active":
-        FRONTEND_DTLS[container.name] = f"http://{container.ip}:{container.port}"
+        FRONTEND_DTLS[container.name] = f"http://{container.name}:7000"
         return {'message': f'Registered frontend service "{container.name}"'}
 
     elif container.status == "inactive":
@@ -72,25 +73,27 @@ def load_balancer():
     # if policy is least response time
     elif POLICY == "LEAST_RESPONSE_TIME":
         min_service_name = None
-        min_time = min(response_time.values())
+        min_time = 0
 
         for service_name, service_endpoint in FRONTEND_DTLS.items():
 
             try:
-                if response_time[service_name] == min_time:
-                    min_service_name = service_name
-
-                    response = requests.get(FRONTEND_DTLS[min_service_name])
-                    response_time = response.elapsed.total_seconds()
-                    response_time[service_name] = response_time
-
-                return {'message': f'Response time: {response_time}. Request served at {min_service_name}', 'response': response.json()}
+                # if response_time[service_name] < min_time:
+                min_service_name = service_name
+                #     min_time = response_time[service_name]
+                print(service_endpoint)
+                print(FRONTEND_DTLS[min_service_name])
+                response = requests.get(FRONTEND_DTLS[min_service_name])
+                # response_time[service_name] = response.elapsed.total_seconds()
+                # output = response.text
+                # return response.text()
+                return HTMLResponse(content=response.text, status_code=200)
 
             except Exception as e:
                 return {'error': f'Failed to connect to service "{service_name}": {str(e)}'}, 500
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+# if __name__ == '__main__':
+#     app.run(host='0.0.0.0', port=5000)
 
 
 # TODO:

@@ -1,27 +1,24 @@
----
-
-version: '3.3'
+version: "3.8"
 
 services:
-
-  # gateway:
-  #   image: test-gateway
-  #   build:
-  #     context: gateway
-  #     dockerfile: Dockerfile
-  #   restart: unless-stopped
-  #   entrypoint: uvicorn gateway:app --host 0.0.0.0 --port 8000
-  #   ports:
-  #     - 8000:8000
-
   frontend:
-    image: test-frontend
+    build: frontend
+    restart: unless-stopped
+    environment:
+      - FLASK_APP=service.py
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "9000-9081:7000"
+
+  gateway:
+    image: test-gateway
     build:
-      context: frontend
+      context: gateway
       dockerfile: Dockerfile
     restart: unless-stopped
-    entrypoint: flask run --host 0.0.0.0 --port 8000
+    entrypoint: uvicorn gateway:app --host 0.0.0.0 --port 5000
     ports:
-      - "9001-9010:8000"
-
-...
+      - "5000:5000"
+    depends_on:
+      - frontend
